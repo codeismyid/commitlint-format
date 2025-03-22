@@ -1,0 +1,75 @@
+{
+  "name": "commitlint-format",
+  "version": "0.0.0",
+  "description": "Variative and customizable format for commitlint",
+  "author": "codeismyid",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codeismyid/commitlint-format.git"
+  },
+  "homepage": "https://github.com/codeismyid/commitlint-format#readme",
+  "bugs": {
+    "url": "https://github.com/codeismyid/commitlint-format/issues"
+  },
+  "files": ["dist"],
+  "license": "MIT",
+  "type": "module",
+  "devEngines": {
+    "runtime": {
+      "name": "bun",
+      "onFail": "ignore"
+    },
+    "packageManager": {
+      "name": "bun",
+      "onFail": "warn"
+    }
+  },
+  "scripts": {
+    "prepare": "bunx husky || true",
+    "ci": "bun install --frozen-lockfile",
+    "clean": "bun clean:deps && bun clean:docs && bun clean:dist && bun clean:codecov",
+    "clean:codecov": "rm -rf coverage",
+    "clean:deps": "rm -rf node_modules && rm -f bun.lockb && rm -f bun.lock",
+    "clean:dist": "rm -rf dist",
+    "check": "bun check:type && bun check:spec && bun check:format && bun check:lint",
+    "check:format": "bunx biome check --linter-enabled=false",
+    "check:lint": "bunx biome lint",
+    "check:spec": "bun test --coverage",
+    "check:type": "bunx tsc && bunx type-coverage",
+    "dist": "bun clean:dist && bun ./scripts/dist.ts && bunx publint",
+    "fix": "bun fix:format && bun fix:lint",
+    "fix:format": "bunx biome check --linter-enabled=false --fix",
+    "fix:lint": "bunx biome lint --fix",
+    "reinstall": "bun clean:deps && bun install",
+    "release": "bun ./scripts/release.ts"
+  },
+  "peerDependencies": {
+    "@commitlint/types": "^19.5.0",
+    "chalk": "^5.4.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@commitlint/cli": "19.7.1",
+    "@types/bun": "latest",
+    "conventional-changelog-conventionalcommits": "8.0.0",
+    "esbuild": "0.25.0",
+    "husky": "9.1.7",
+    "publint": "0.3.9",
+    "semantic-release": "24.2.1",
+    "tsc-alias": "1.8.11",
+    "type-coverage": "2.29.7",
+    "typescript": "5.5.4"
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./*": "./dist/formatters/*.js",
+    "./package.json": "./package.json"
+  },
+  "typeCoverage": {
+    "atLeast": 100,
+    "strict": true,
+    "showRelativePath": true,
+    "ignoreAsAssertion": true,
+    "ignoreEmptyType": true
+  }
+}
