@@ -11,6 +11,13 @@
   "bugs": {
     "url": "https://github.com/codeismyid/commitlint-format/issues"
   },
+  "keywords": [
+    "commitlint",
+    "commitlint-format",
+    "commitlint-formatter",
+    "format",
+    "formatter"
+  ],
   "files": ["dist"],
   "license": "MIT",
   "type": "module",
