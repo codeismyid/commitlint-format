@@ -3,13 +3,19 @@
   "version": "0.0.0",
   "description": "Variative and customizable format for commitlint",
   "author": "codeismyid",
+  "license": "MIT",
+  "homepage": "https://github.com/codeismyid/commitlint-format#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/codeismyid/commitlint-format.git"
   },
-  "homepage": "https://github.com/codeismyid/commitlint-format#readme",
   "bugs": {
     "url": "https://github.com/codeismyid/commitlint-format/issues"
+  },
+  "files": ["dist"],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   },
   "keywords": [
     "commitlint",
@@ -18,19 +24,6 @@
     "format",
     "formatter"
   ],
-  "files": ["dist"],
-  "license": "MIT",
-  "type": "module",
-  "devEngines": {
-    "runtime": {
-      "name": "bun",
-      "onFail": "ignore"
-    },
-    "packageManager": {
-      "name": "bun",
-      "onFail": "warn"
-    }
-  },
   "scripts": {
     "prepare": "bunx husky || true",
     "ci": "bun install --frozen-lockfile",
@@ -67,10 +60,21 @@
     "type-coverage": "2.29.7",
     "typescript": "5.8.2"
   },
+  "type": "module",
   "exports": {
     ".": "./dist/index.js",
     "./*": "./dist/formatters/*.js",
     "./package.json": "./package.json"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "bun",
+      "onFail": "ignore"
+    },
+    "packageManager": {
+      "name": "bun",
+      "onFail": "warn"
+    }
   },
   "typeCoverage": {
     "atLeast": 100,
