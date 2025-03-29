@@ -7,7 +7,7 @@ Variative and customizable format for [commitlint](https://commitlint.js.org/).
 [![License](https://img.shields.io/github/license/codeismyid/commitlint-format?style=flat-square&color=blue)](/LICENSE)
 [![NPM Latest](https://img.shields.io/npm/v/commitlint-format.svg?style=flat-square&color=blue)](https://www.npmjs.com/package/commitlint-format)
 [![NPM Downloads](https://img.shields.io/npm/dt/commitlint-format.svg?style=flat-square&color=blue)](https://www.npmjs.com/package/commitlint-format)
-[![Bundlephobia](https://img.shields.io/bundlephobia/minzip/commitlint-format?style=flat-square&color=blue)](https://bundlephobia.com/package/commitlint-format)
+[![NPM Min Size](https://img.shields.io/bundlejs/size/commitlint-format?style=flat-square&color=blue)](https://www.npmjs.com/package/commitlint-format)
 
 [![CI](https://img.shields.io/github/actions/workflow/status/codeismyid/commitlint-format/ci.yaml?style=flat-square&logo=github&label=CI&labelColor=383f47)](https://github.com/codeismyid/commitlint-format/actions/workflows/ci.yaml)
 [![CodeQL](https://img.shields.io/github/actions/workflow/status/codeismyid/commitlint-format/codeql.yaml?style=flat-square&logo=github&label=CodeQL&labelColor=383f47)](https://github.com/codeismyid/commitlint-format/actions/workflows/codeql.yaml)
