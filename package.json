@@ -69,7 +69,7 @@
   "devEngines": {
     "runtime": {
       "name": "bun",
-      "onFail": "ignore"
+      "onFail": "warn"
     },
     "packageManager": {
       "name": "bun",
