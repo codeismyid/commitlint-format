@@ -43,6 +43,7 @@
     "reinstall": "bun clean:deps && bun install",
     "release": "bun ./scripts/release.ts"
   },
+  "dependencies": {},
   "peerDependencies": {
     "@commitlint/types": "^19.5.0",
     "chalk": "^5.4.1"
@@ -61,9 +62,17 @@
     "typescript": "5.8.2"
   },
   "type": "module",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
-    ".": "./dist/index.js",
-    "./*": "./dist/formatters/*.js",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./*": {
+      "types": "./dist/formatters/*.d.ts",
+      "import": "./dist/formatters/*.js"
+    },
     "./package.json": "./package.json"
   },
   "devEngines": {
