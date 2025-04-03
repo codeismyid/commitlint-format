@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+import path from 'node:path';
 import { Chalk } from 'chalk';
 import esbuild from 'esbuild';
 import tscAlias from 'tsc-alias';
@@ -71,7 +72,7 @@ const buildJs = async (
   for (const out of result.outputFiles) {
     await Bun.write(out.path, out.contents);
     list.push({
-      filePath: out.path,
+      filePath: path.resolve(out.path),
       fileContents: out.text
     });
   }
@@ -101,11 +102,12 @@ const buildDts = (ext?: BuildOutput['extension']) => {
       }
     );
     const host = ts.createCompilerHost(config.options);
-    host.writeFile = async (...arg) => {
+    const writeFile = host.writeFile;
+    host.writeFile = (...arg) => {
+      writeFile(...arg);
       const [filePath, fileContents] = arg;
-      await Bun.write(filePath, fileContents);
       list.push({
-        filePath,
+        filePath: path.resolve(filePath),
         fileContents
       });
     };
@@ -151,17 +153,15 @@ const build = async (
     }
   }
 
+  await resolveAlias(result);
+
   return result;
 };
 
 const main = async () => {
   console.info('build dist files...');
   const startTime = performance.now();
-  const [esm, dts] = await Promise.all([
-    build('esm', '.js'),
-    build('dts', '.d.ts')
-  ]);
-  await Promise.all([resolveAlias(esm), resolveAlias(dts)]);
+  await Promise.all([build('esm', '.js'), build('dts', '.d.ts')]);
   const endTime = performance.now();
 
   console.info(
