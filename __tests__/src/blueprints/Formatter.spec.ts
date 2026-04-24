@@ -389,7 +389,7 @@ describe('blueprints > Formatter', () => {
 
       expect(formatted).toIncludeRepeated(
         formatterOptions.formatOptions.separatorBetweenInputAndResult,
-        2
+        3
       );
     });
 
