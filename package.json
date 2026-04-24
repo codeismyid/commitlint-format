@@ -57,7 +57,7 @@
     "husky": "9.1.7",
     "publint": "0.3.12",
     "semantic-release": "24.2.3",
-    "tsc-alias": "1.8.15",
+    "tsc-alias": "1.8.16",
     "type-coverage": "2.29.7",
     "typescript": "5.8.3"
   },
