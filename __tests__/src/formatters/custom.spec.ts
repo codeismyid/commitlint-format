@@ -7,9 +7,9 @@ import {
   type Transformer
 } from 'src/blueprints';
 import format, {
-  formatter,
   formatInput,
-  formatResult
+  formatResult,
+  formatter
 } from 'src/formatters/custom';
 
 const notImplementedError = new Error('need to `setTransformer` first.');
