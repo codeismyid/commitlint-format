@@ -172,12 +172,16 @@ const releaseOptions: SemanticRelease.Options = (() => {
   };
 })();
 
-const generateGhaSummary = (nextRelease: SemanticRelease.NextRelease) => {
-  const repoUrl = (releaseOptions.repositoryUrl as string)
-    .replace(/^git\+/, '')
-    .replace(/.git$/, '');
+const generateSummary = (result: SemanticRelease.Result) => {
+  let content = '## 🚀 Release Report';
 
-  const content = `## 🚀 Release Report
+  if (result) {
+    const { nextRelease } = result;
+    const repoUrl = (releaseOptions.repositoryUrl as string)
+      .replace(/^git\+/, '')
+      .replace(/.git$/, '');
+
+    content += `
 - Type: ${nextRelease.type}
 - Version: ${nextRelease.version}
 - Tag: ${nextRelease.gitTag}
@@ -186,6 +190,14 @@ See this release at this [link](${repoUrl}/releases/tag/${nextRelease.gitTag}).
 
 ## 📝 Generated Notes
 ${nextRelease.notes}`;
+  } else {
+    content += `
+- Type: N/A
+- Version: N/A
+- Tag: N/A
+
+No release published.`;
+  }
 
   return content;
 };
@@ -197,32 +209,16 @@ const runRelease = async () => {
 
     console.info('--------------------------------------------------\n');
 
-    if (!result) {
-      console.info('No release published.');
+    const summary = generateSummary(result);
 
-      if (isGHA) {
-        await Bun.$`printf "%s" "🧪 No Release Published" >> $GITHUB_STEP_SUMMARY`;
-      }
-
-      return;
-    }
-
-    const { nextRelease } = result;
+    console.info(summary);
 
     if (isGHA) {
-      const summary = generateGhaSummary(nextRelease);
-
-      console.info('Generating github step summary...');
       await Bun.$`printf "%s" "${summary}" >> $GITHUB_STEP_SUMMARY`;
-      console.info('> $GITHUB_STEP_SUMMARY');
-      console.info();
-      console.info('--------------------------------------------------\n');
     }
 
-    console.info(`${chalk.bold('Release Report')}\n`);
-    console.info(`Type: ${nextRelease.type}`);
-    console.info(`Version: ${nextRelease.version}`);
-    console.info(`Tag: ${nextRelease.gitTag}`);
+    console.info();
+    console.info('--------------------------------------------------\n');
   } catch (err) {
     if (err instanceof Error) {
       console.error(`${err.name}:`, `${chalk.white(err.message)}`);
