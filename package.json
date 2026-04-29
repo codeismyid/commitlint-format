@@ -45,12 +45,12 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "@commitlint/types": "^19.5.0",
+    "@commitlint/types": "^19.5.0 || ^20.0.0",
     "chalk": "^5.4.1"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@commitlint/cli": "19.8.0",
+    "@commitlint/cli": "20.5.2",
     "@types/bun": "latest",
     "conventional-changelog-conventionalcommits": "8.0.0",
     "esbuild": "0.28.0",
