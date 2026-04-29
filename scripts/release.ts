@@ -192,13 +192,18 @@ ${nextRelease.notes}`;
 
 const runRelease = async () => {
   try {
-    const releasing = SemanticRelease.default;
-    const result = await releasing(releaseOptions);
+    const release = SemanticRelease.default;
+    const result = await release(releaseOptions);
 
     console.info('--------------------------------------------------\n');
 
     if (!result) {
       console.info('No release published.');
+
+      if (isGHA) {
+        await Bun.$`printf "%s" "🧪 No Release Published" >> $GITHUB_STEP_SUMMARY`;
+      }
+
       return;
     }
 
