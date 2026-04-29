@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   publish:
-    name: Publish release
+    name: Publish release (if needed)
     if: github.repository_owner == 'codeismyid'
     runs-on: ubuntu-24.04
     permissions:
@@ -63,7 +63,7 @@ jobs:
       - name: Build dist
         run: bun dist
 
-      - name: Publish
+      - name: Run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
