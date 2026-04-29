@@ -4,9 +4,9 @@ import type * as Chalk from 'chalk';
 import chalk from 'chalk';
 import { type FormatOptions, Formatter, type LintReport } from 'src/blueprints';
 import format, {
-  formatter,
   formatInput,
-  formatResult
+  formatResult,
+  formatter
 } from 'src/formatters/gha-annotation';
 
 const signs = ['✔', '⚠', '✖'];
@@ -32,17 +32,21 @@ describe('formatters > gha-annotation', () => {
   let lintReport: LintReport;
   let formatOptions: FormatOptions;
   const getFormatted = {
-    result: (_lintOutcome?: CLint.LintOutcome) => {
+    input: (_lintOutcome?: CLint.LintOutcome) => {
       const { input, errors, warnings } = _lintOutcome ?? lintOutcome;
-
       const type =
-        errors.length > 0
-          ? '::error'
-          : warnings.length > 0
-            ? '::warning'
-            : '::debug';
+        errors.length > 0 ? 'error' : warnings.length > 0 ? 'warning' : 'debug';
 
-      const header = `${type}::✉️ Commit Message${nL2}${input}`;
+      return res([
+        `::${type}::`,
+        '✉️ Commit Message',
+        nL2,
+        input.split(/\r?\n/)[0].trim()
+      ]);
+    },
+    result: (_lintOutcome?: CLint.LintOutcome) => {
+      const { errors, warnings } = _lintOutcome ?? lintOutcome;
+
       const summarySign =
         signs[errors.length > 0 ? 2 : warnings.length > 0 ? 1 : 0];
       const problems = [...errors, ...warnings].map((problem) => {
@@ -59,7 +63,7 @@ describe('formatters > gha-annotation', () => {
           ? `${nL}Help: ${formatOptions.helpUrl}`
           : '';
 
-      return res([header, nL2, body, nL2, summary, help]);
+      return res([body, nL2, summary, help]);
     }
   };
 
@@ -106,9 +110,36 @@ describe('formatters > gha-annotation', () => {
   });
 
   describe('formatInput', () => {
-    it('should return empty array', () => {
+    it('should return empty array if problem not exists', () => {
+      lintOutcome.errors = [];
+      lintOutcome.warnings = [];
+
       const formattedInput = formatInput(lintOutcome, formatOptions);
+
       expect(formattedInput).toEqual([]);
+    });
+
+    it('should correctly format input if problem not exists but verbose is true', () => {
+      lintOutcome.errors = [];
+      lintOutcome.warnings = [];
+      formatOptions.verbose = true;
+
+      const formattedInput = formatInput(lintOutcome, formatOptions);
+
+      expect(formattedInput).toEqual(getFormatted.input());
+    });
+
+    it('should correctly format input if problem exists', () => {
+      const formattedInput = formatInput(lintOutcome, formatOptions);
+      expect(formattedInput).toEqual(getFormatted.input());
+    });
+
+    it('should only take the first line as reuslt', () => {
+      lintOutcome.input = 'fix: something\n\nbody\n\nfooter';
+      const formattedInput = formatInput(lintOutcome, formatOptions);
+      expect(formattedInput[0]).not.toInclude('\n');
+      expect(formattedInput[0]).not.toInclude('body');
+      expect(formattedInput[0]).not.toInclude('footer');
     });
   });
 
@@ -162,7 +193,12 @@ describe('formatters > gha-annotation', () => {
 
       const formattedReport = format(lintReport, formatOptions);
       const expected = lintReport.results
-        .map((lintOutcome) => getFormatted.result(lintOutcome).join(''))
+        .map(
+          (lintOutcome) =>
+            getFormatted.input(lintOutcome) +
+            nL2 +
+            getFormatted.result(lintOutcome).join('')
+        )
         .join(formatOptions.separatorBetweenCommits);
 
       expect(formattedReport).toBe(expected);

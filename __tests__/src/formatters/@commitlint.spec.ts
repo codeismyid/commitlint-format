@@ -4,9 +4,9 @@ import type * as Chalk from 'chalk';
 import chalk from 'chalk';
 import { type FormatOptions, Formatter, type LintReport } from 'src/blueprints';
 import format, {
-  formatter,
   formatInput,
-  formatResult
+  formatResult,
+  formatter
 } from 'src/formatters/@commitlint';
 
 const signs = [chalk.green('✔'), chalk.yellow('⚠'), chalk.red('✖')];

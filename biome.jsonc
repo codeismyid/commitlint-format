@@ -3,9 +3,6 @@
   "files": {
     "ignoreUnknown": true
   },
-  "organizeImports": {
-    "enabled": true
-  },
   "formatter": {
     "enabled": true,
     "attributePosition": "multiline",
@@ -23,23 +20,6 @@
       "style": {
         "useTemplate": "off"
       }
-    }
-  },
-  "css": {
-    "formatter": {
-      "enabled": true,
-      "indentStyle": "space",
-      "indentWidth": 2,
-      "lineWidth": 80,
-      "lineEnding": "lf",
-      "quoteStyle": "single"
-    },
-    "linter": {
-      "enabled": true
-    },
-    "parser": {
-      "allowWrongLineComments": true,
-      "cssModules": true
     }
   },
   "javascript": {

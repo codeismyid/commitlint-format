@@ -9,14 +9,8 @@ const nL2 = nL + nL;
  */
 export const formatter = new Formatter(
   {
-    transformInput: () => [],
-    transformResult: (result, context) => {
-      const {
-        formatOptions: { helpUrl },
-        getSign
-      } = context;
-      let formatted = '';
-
+    transformInput: (result) => {
+      const commitMsg = result.input.split(/\r?\n/)[0].trim();
       const type =
         result.errors.length > 0
           ? 'error'
@@ -24,7 +18,16 @@ export const formatter = new Formatter(
             ? 'warning'
             : 'debug';
 
-      formatted += `::${type}::✉️ Commit Message${nL2}${result.input}${nL2}`;
+      const formatted = `::${type}::✉️ Commit Message${nL2}${commitMsg}`;
+
+      return [formatted];
+    },
+    transformResult: (result, context) => {
+      const {
+        formatOptions: { helpUrl },
+        getSign
+      } = context;
+      let formatted = '';
 
       const errorCount = result.errors.length;
       const warningCount = result.warnings.length;

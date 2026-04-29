@@ -167,6 +167,7 @@ const releaseOptions: SemanticRelease.Options = (() => {
   return {
     branches: RELEASE_BRANCHES,
     repositoryUrl: packageJson.repository.url,
+    // biome-ignore lint/suspicious/noTemplateCurlyInString: intended
     tagFormat: 'v${version}',
     plugins
   };
