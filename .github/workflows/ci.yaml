@@ -207,5 +207,5 @@ jobs:
 
       - name: Run check
         run: |
-          bunx tsc
-          bunx type-coverage
+          tsc_output=$(bunx tsc; bunx type-coverage)
+          printf "%s" "$tsc_output" | bunx tsc-output-format --formatOnly --formatOutput gha

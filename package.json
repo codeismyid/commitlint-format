@@ -60,6 +60,7 @@
     "publint": "0.3.18",
     "semantic-release": "25.0.3",
     "tsc-alias": "1.8.16",
+    "tsc-output-format": "1.2.0",
     "type-coverage": "2.29.7",
     "typescript": "6.0.3"
   },
